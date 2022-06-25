@@ -1,0 +1,58 @@
+$slate-100: #e5e7eb;
+
+.grid-container {
+  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  & a:hover {
+    text-decoration: none;
+  }
+  & .grid-item {
+    gap: 1rem;
+    padding: 1rem;
+    display: grid;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid $slate-100;
+    box-shadow: 1px 1px 29px 0px #0000001f;
+    transition-property: background-color, box-shadow, color, border-color;
+    transition-duration: 0.3s;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    & .grid-info {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+
+      & .grid-author {
+        grid-column: span 1;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        & .author-thumb {
+          width: 100%;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+}
+.post-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  grid-column: span 4;
+  line-height: normal;
+  transition-duration: 0.3s;
+  transition-property: background-color, color;
+}
+.post-excerpt {
+  grid-column: span 5;
+  transition-duration: 0.3s;
+  transition-property: background-color, color;
+  & p {
+    margin: 0;
+  }
+}

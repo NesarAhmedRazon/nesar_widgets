@@ -1,0 +1,47 @@
+.list_post {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1em;
+  margin: 0;
+  padding: 0;
+  & .post {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+
+    & .link {
+      color: inherit;
+      text-decoration: inherit;
+      display: block;
+      text-align: left;
+      line-height: 1.1;
+    }
+  }
+}
+.time_line {
+  & .time_line_post {
+    padding: 2em 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  & .tl_date {
+    word-break: keep-all;
+    font-size: 1.1em;
+    min-width: 20%;
+  }
+  & .tl_title {
+    margin: 0;
+  }
+  & .tl_button {
+    font-weight: 600;
+    padding: 0.8em 2em;
+    line-height: 1;
+    border-radius: 0.3em;
+    transition: all 0.3s;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

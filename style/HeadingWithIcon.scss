@@ -1,0 +1,24 @@
+.hIcon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  &_title {
+    margin: 0;
+    &.uline {
+      display: flex;
+      flex-direction: column;
+      &:after {
+        content: "";
+      }
+    }
+  }
+  &_icon {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.4em;
+    height: 1.4em;
+  }
+}

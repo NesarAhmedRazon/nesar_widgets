@@ -1,0 +1,107 @@
+.lItem {
+  display: flex;
+  align-content: baseline;
+}
+.listIcon,
+.lPara {
+  font-size: medium;
+  font-weight: normal;
+  & p {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    & a {
+      font-weight: bold;
+    }
+  }
+}
+.lPara {
+  & a {
+    font-weight: bold;
+  }
+  & > ol {
+    counter-reset: list;
+    & > li {
+      counter-increment: list;
+      &::marker {
+        font-weight: 600;
+        content: counter(list, lower-alpha) ")\a0";
+      }
+      & > ol {
+        counter-reset: list;
+        & > li {
+          counter-increment: list;
+          &::marker {
+            font-weight: 600;
+            content: counter(list, lower-roman) ")\a0";
+          }
+
+          & > ol {
+            counter-reset: list;
+            & > li {
+              counter-increment: list;
+              &::marker {
+                font-weight: 600;
+                content: counter(list, lower-alpha) ")\a0";
+              }
+            }
+          }
+        }
+      }
+    }
+
+    & > li > ul {
+      list-style-type: disc;
+      & > li > ul {
+        list-style-type: circle;
+      }
+    }
+  }
+  & > ul {
+    list-style-type: disc;
+    & > li > ul {
+      list-style-type: circle;
+    }
+    & ol {
+      counter-reset: list;
+      & > li {
+        counter-increment: list;
+        &::marker {
+          font-weight: 600;
+          content: counter(list, lower-alpha) ")\a0";
+        }
+        & > ol {
+          counter-reset: list;
+          & > li {
+            counter-increment: list;
+            &::marker {
+              font-weight: 600;
+              content: counter(list, lower-roman) ")\a0";
+            }
+
+            & > ol {
+              counter-reset: list;
+              & > li {
+                counter-increment: list;
+                &::marker {
+                  font-weight: 600;
+                  content: counter(list, lower-alpha) ")\a0";
+                }
+              }
+            }
+          }
+        }
+      }
+
+      & > li > ul {
+        list-style-type: disc;
+        & > li > ul {
+          list-style-type: circle;
+        }
+      }
+    }
+  }
+  & table {
+    background-color: #0001;
+  }
+}

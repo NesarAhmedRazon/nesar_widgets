@@ -1,0 +1,61 @@
+.tabList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tabItem {
+  margin: 0;
+  background-color: #61ce70;
+  color: #fff;
+  & .tabText {
+    padding: 1em 2em;
+    position: relative;
+    transition: all 0.5s;
+    cursor: pointer;
+    &::before {
+      content: "";
+      width: 100%;
+      position: absolute;
+      left: 0;
+      transition: all 0.5s;
+    }
+  }
+  & .tabData {
+    display: none;
+  }
+  &.active {
+    & .tabData {
+      display: block;
+    }
+  }
+}
+.tabContents {
+  & .tabText {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+  &.tabs {
+    background-color: rebeccapurple;
+    & .content {
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
+  }
+  &.accordion {
+    & .tabItem {
+      display: block;
+    }
+    & .content {
+      & .tabData {
+        display: none;
+      }
+      &.active {
+        & .tabData {
+          display: block;
+        }
+      }
+    }
+  }
+}

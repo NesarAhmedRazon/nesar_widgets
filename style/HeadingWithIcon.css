@@ -1,0 +1,1 @@
+.hIcon{display:flex;justify-content:space-between;align-items:center;flex-direction:row}.hIcon_title{margin:0}.hIcon_title.uline{display:flex;flex-direction:column}.hIcon_title.uline:after{content:""}.hIcon_icon{margin:0;display:flex;justify-content:center;align-items:center;width:1.4em;height:1.4em}

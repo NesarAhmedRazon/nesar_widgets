@@ -1,0 +1,50 @@
+*:focus {
+  outline: none;
+}
+.toggller {
+  $bdrRad: 0.2;
+  background-color: #e5e7eb;
+  border: 1px solid #94a3b8;
+  border-radius: #{$bdrRad}em;
+
+  transition: 0.3s ease all;
+  color: #94a3b8;
+  position: relative;
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0px;
+  width: 5em;
+  font-weight: 500;
+  & .no,
+  & .yes {
+    text-align: center;
+    padding-top: 0.45em;
+    padding-bottom: 0.45em;
+  }
+  & .yes {
+    color: #fff;
+  }
+  $gap: 0.45;
+  &:before {
+    content: "";
+    position: absolute;
+    height: calc(100% - #{$gap}em);
+    width: calc(50% - #{$gap}em);
+    top: #{$gap/2}em;
+    left: #{$gap/2}em;
+    border-radius: #{$bdrRad}em;
+    background-color: #94a3b8;
+    transition: 0.3s ease all;
+    box-shadow: 0px 0px 3px #36363629;
+  }
+  &.show {
+    border-color: #3fb65b;
+    background-color: #3fb65b;
+    &:before {
+      left: calc(50% + #{$gap/2}em);
+      background-color: #fff;
+      box-shadow: 0px 0px 10px #36363633, inset 0px 0px 5px #6463634a;
+    }
+  }
+}

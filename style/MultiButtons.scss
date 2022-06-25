@@ -1,0 +1,27 @@
+.multiButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & &_button {
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 1em 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  & .btn_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
