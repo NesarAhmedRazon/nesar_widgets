@@ -31,6 +31,7 @@ class PostTransfating
     }
     public function move_post_register_setting()
     {
+        
         wp_enqueue_style('nw_admin', WP_PLUGIN_URL . '/nesar_widgets/style/admin.css');
         register_setting(
             'move_post_settings', // settings group name
