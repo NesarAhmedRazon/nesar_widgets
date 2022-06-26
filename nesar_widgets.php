@@ -8,7 +8,7 @@
 * Plugin URI: https://github.com/NesarAhmedRazon/nesar_widgets
 * Description: This plugin will add some new Elementor Widgets.
 * Author: Nesar Ahmed
-* Version: 1.4.78
+* Version: 1.4.79
 * Elementor tested up to: 3.6.6
 * Elementor Pro tested up to: 3.7.2
 * Author URI: https://github.com/NesarAhmedRazon/
@@ -98,3 +98,10 @@ new PostTransfating();
 
 require plugin_dir_path(NESAR_WIDGETS) . 'exts/LastWorker.php';
 new LastWorkerSettings(); // Adds option under General Settings
+
+function deQueStyle()
+{
+    wp_dequeue_style('formidable');
+}
+
+add_action('wp_enqueue_scripts', 'deQueStyle', 10000);
