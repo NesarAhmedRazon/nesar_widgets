@@ -101,7 +101,10 @@ new LastWorkerSettings(); // Adds option under General Settings
 
 function deQueStyle()
 {
-    wp_dequeue_style('formidable');
+    if (is_home()) {
+        wp_dequeue_style('twentytwentytwo-style');
+        wp_dequeue_style("elementor-icons-shared-0");
+    }
 }
 
-add_action('wp_enqueue_scripts', 'deQueStyle', 10000);
+add_action('wp_enqueue_scripts', 'deQueStyle', 999999999999999999999999999999999);
