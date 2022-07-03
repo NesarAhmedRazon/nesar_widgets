@@ -83,7 +83,7 @@ class BasicControls_buttons extends MultiButtons
                         'default' => 'center',
                         'toggle' => true,
                         'selectors' => [
-                            '{{WRAPPER}}  .' . $class['child'] => 'text-align: {{VALUE}}',
+                            '{{WRAPPER}}  .multiButtons_button' => 'text-align: {{VALUE}}',
                         ],
 
                     ]
