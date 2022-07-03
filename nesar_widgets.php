@@ -8,7 +8,7 @@
 * Plugin URI: https://github.com/NesarAhmedRazon/nesar_widgets
 * Description: This plugin will add some new Elementor Widgets.
 * Author: Nesar Ahmed
-* Version: 1.4.80
+* Version: 1.4.82
 * Elementor tested up to: 3.6.6
 * Elementor Pro tested up to: 3.7.2
 * Author URI: https://github.com/NesarAhmedRazon/
@@ -102,7 +102,8 @@ new LastWorkerSettings(); // Adds option under General Settings
 function deQueStyle()
 {
     if (is_home()) {
-        wp_dequeue_style('twentytwentytwo-style');
+        wp_dequeue_style('formidable');
+        wp_dequeue_style('roots_app');
         wp_dequeue_style("elementor-icons-shared-0");
     }
 }

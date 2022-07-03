@@ -50,7 +50,7 @@ class BasicControls_buttons extends MultiButtons
                     [
                         'name' => $id . '_' . strtolower($repeater) . '_typography',
                         'label' => 'Font',
-                        'selector' => '{{WRAPPER}} .btn_text',
+                        'selector' => '{{WRAPPER}} .multiButtons_button',
 
                     ]
                 );
