@@ -50,7 +50,7 @@ class MultiButtons extends Widget_Base
                     'child' => 'multiButtons_button',
                 ],
                 'settings' => ['link', 'text_style', 'background', 'spacing'],
-                'remove' => ['padding']
+                'remove' => ['padding', 'text_align']
             ]
         );
     }

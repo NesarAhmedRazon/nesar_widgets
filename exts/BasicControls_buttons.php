@@ -85,6 +85,7 @@ class BasicControls_buttons extends MultiButtons
                         'selectors' => [
                             '{{WRAPPER}}  .multiButtons_button' => 'text-align: {{VALUE}}',
                         ],
+                        'condition' => [$id . '_fill!' => '1'],
 
                     ]
                 );
@@ -236,15 +237,42 @@ class BasicControls_buttons extends MultiButtons
                     'active' => true,
                 ],
                 'label_block' => true,
+
             ]
         );
-
-
 
         $reps->add_control(
             $id . 'hr2',
             [
                 'type' => \Elementor\Controls_Manager::DIVIDER,
+            ]
+        );
+        $reps->add_control(
+            $id . '_' . strtolower($repeater) . '_btn_align',
+            [
+                'label' => esc_html__('Text alignment', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'label_block' => true,
+                'options' => [
+                    'flex-start' => [
+                        'title' => esc_html__('Left', 'nesar-widgets'),
+                        'icon' => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => esc_html__('Center', 'nesar-widgets'),
+                        'icon' => 'eicon-text-align-center',
+                    ],
+                    'flex-end' => [
+                        'title' => esc_html__('Right', 'nesar-widgets'),
+                        'icon' => 'eicon-text-align-right',
+                    ]
+                ],
+                'default' => 'center',
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'justify-content: {{VALUE}}',
+                ],
+
+
             ]
         );
         $reps->start_controls_tabs(
