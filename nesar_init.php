@@ -33,6 +33,7 @@ class Widget_Loader
             "MultiButtons",
             "PricingTable",
             "TallyfyPostListByType",
+            "TestimonialCard",
         ];
 
         foreach ($Widgets as $class) {
