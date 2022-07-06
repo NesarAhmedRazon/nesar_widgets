@@ -2,6 +2,8 @@
   display: grid;
   gap: 0.5em;
   cursor: pointer;
+  text-decoration: none;
+  color: #333;
   grid-auto-flow: column;
   transition-property: all;
   transition-timing-function: linear;

@@ -65,14 +65,17 @@ class TestimonialCard extends Widget_Base
         $set->settings();
         $set->cardstyles();
         $set->textstyles('msg', 'Message', 'tesText');
-        $set->textstyles('nam', 'Name', 'tesName');
+        $set->textstyles('nam', 'Name', 'tesName', ['size']);
         $set->custImage('img', 'Image', 'tesImg');
     }
     protected function render()
     {
+        $tool = new TesCardSettings();
         $set = $this->get_settings_for_display();
         $name = $set[$this->id . '_name'];
         $url = $set[$this->id . '_link'];
+        $msize = $set[$this->id . '_msg_size']['size'];
+        var_dump($msize);
         if (!empty($url['url'])) {
             $this->add_link_attributes($this->id . '_link', $url);
         }
@@ -82,7 +85,7 @@ class TestimonialCard extends Widget_Base
         $image = $set[$this->id . '_image'];
 ?>
 <a class="tesCard" <?php echo $attrs; ?>>
-    <div class="tesText"><?php echo $message; ?></div>
+    <div class="tesText"><?php $tool->excerptforPost($message, $msize); ?></div>
     <div class="tesName"><?php echo $name; ?></div>
     <div class="tesImg">
         <?php echo '<img src="' . $image['url'] . '" alt="' . $image['alt'] . '" class="cusImg">'; ?>
@@ -96,7 +99,14 @@ class TestimonialCard extends Widget_Base
 class TesCardSettings extends TestimonialCard
 {
 
-
+    public function excerptforPost($text, $num = 50)
+    {
+        $limit = $num + 1;
+        $excerpt = explode(' ', $text, $limit);
+        array_pop($excerpt);
+        $excerpt = implode(" ", $excerpt) . "... ";
+        echo $excerpt;
+    }
     public function settings()
     {
 
@@ -301,7 +311,7 @@ class TesCardSettings extends TestimonialCard
         );
         $this->end_controls_section();
     }
-    public function textstyles($name, $title, $class)
+    public function textstyles($name, $title, $class, $dis = [])
     {
         $this->start_controls_section(
             $this->id . '_' . $name . '_styles',
@@ -396,6 +406,27 @@ class TesCardSettings extends TestimonialCard
         );
         $this->end_controls_tab();
         $this->end_controls_tabs();
+        if (!in_array('size', $dis)) {
+            $this->add_control(
+                $this->id . '_' . $name . '_size',
+                [
+                    'label' => esc_html__($title . ' Size', 'nesar-widgets'),
+                    'type' => \Elementor\Controls_Manager::SLIDER,
+                    'size_units' => ['w'],
+                    'range' => [
+                        'w' => [
+                            'min' => 0,
+                            'max' => 500,
+                            'step' => 10,
+                        ],
+                    ],
+                    'default' => [
+                        'unit' => 'w',
+                        'size' => 50,
+                    ],
+                ]
+            );
+        }
         $this->end_controls_section();
     }
 
