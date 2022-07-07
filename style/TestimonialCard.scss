@@ -9,6 +9,9 @@
   transition-timing-function: linear;
   grid-template-rows: repeat(3, minmax(0, 1fr));
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  &:hover {
+    text-decoration: none;
+  }
   & .tesText {
     grid-row: span 2 / span 3;
     grid-column: span 3 / span 3;

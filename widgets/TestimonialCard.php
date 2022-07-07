@@ -75,7 +75,7 @@ class TestimonialCard extends Widget_Base
         $name = $set[$this->id . '_name'];
         $url = $set[$this->id . '_link'];
         $msize = $set[$this->id . '_msg_size']['size'];
-        var_dump($msize);
+
         if (!empty($url['url'])) {
             $this->add_link_attributes($this->id . '_link', $url);
         }
