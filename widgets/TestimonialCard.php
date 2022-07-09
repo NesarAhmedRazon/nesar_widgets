@@ -66,47 +66,132 @@ class TestimonialCard extends Widget_Base
         $set->cardstyles();
         $set->textstyles('msg', 'Message', 'tesText');
         $set->textstyles('nam', 'Name', 'tesName', ['size']);
+        $set->textstyles('des', 'Designation', 'tesDes', ['size']);
         $set->custImage('img', 'Image', 'tesImg');
     }
     protected function render()
     {
         $tool = new TesCardSettings();
         $set = $this->get_settings_for_display();
-        $name = $set[$this->id . '_name'];
-        $url = $set[$this->id . '_link'];
+        $data_type = $set[$this->id . 'data_types'];
         $msize = $set[$this->id . '_msg_size']['size'];
 
-        if (!empty($url['url'])) {
-            $this->add_link_attributes($this->id . '_link', $url);
-        }
-
         $attrs = $this->get_render_attribute_string($this->id . '_link');
-        $message = $set[$this->id . '_message'];
-        $image = $set[$this->id . '_image'];
-?>
-<a class="tesCard" <?php echo $attrs; ?>>
-    <div class="tesText"><?php $tool->excerptforPost($message, $msize); ?></div>
-    <div class="tesName"><?php echo $name; ?></div>
-    <div class="tesImg">
-        <?php echo '<img src="' . $image['url'] . '" alt="' . $image['alt'] . '" class="cusImg">'; ?>
-    </div>
-</a>
-<?php
+        $url = '';
+        $image = [];
 
+?>
+
+<?php
+        if ($data_type == 'dynamic') {
+
+            $post_type = $set[$this->id . 'post_types'];
+            $postID = $set[$this->id . 'posts_' . $post_type];
+            if ($postID !== "") {
+                $meta = $tool->get_meta_data('user_review', $postID);
+                $message = $tool->excerptforPost($meta, $msize);
+                $name = $tool->get_meta_data('user_name', $postID);
+                $desig = $tool->get_meta_data('user_designation', $postID);
+                $attrs = 'href="' . esc_url(get_permalink($postID)) . '"';
+                $image = get_the_post_thumbnail($postID, 'thumbnail', array('class' => 'cusImg'));
+                echo '<a class="tesCard"' . $attrs . '>';
+                echo '<div class="tesText">' . $message . '</div>';
+                echo '<div class="tesInfo"><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
+                echo '<div class="tesImg">' . $image . '</div>';
+                echo '</a>';
+            }
+        } else {
+            $name = $set[$this->id . '_name'];
+            $desig = $set[$this->id . '_designation'];
+            $url = $set[$this->id . '_link'];
+            if (!empty($url['url'])) {
+                $this->add_link_attributes($this->id . '_link', $url);
+            }
+
+            $meta = $set[$this->id . '_message'];
+            $message = $tool->excerptforPost($meta, $msize);
+            $image = $set[$this->id . '_image'];
+
+            echo '<a class="tesCard" ' . $attrs . '>';
+            echo '<div class="tesText">' . $message . '</div>';
+            echo '<div class="tesInfo"><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
+            echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
+            echo '</a>';
+        }
     }
 }
 
 class TesCardSettings extends TestimonialCard
 {
 
+    public function get_meta_data($field, $id = false)
+    {
+        $meta = get_post_meta($id, $field, true);
+        return $meta;
+    }
+    public function get_post_types()
+    {
+        $items = [];
+        $ignors = ['attachment', 'elementor-thhf'];
+        $args = array(
+            'public'   => true,
+        );
+        $post_types = get_post_types($args, 'objects');
+        foreach ($ignors as $ignor) {
+            unset($post_types[$ignor]);
+        }
+
+        if ($post_types) {
+            foreach ($post_types  as $post_type) {
+                $name = $post_type->name;
+
+                if (!preg_match("/^element|^cms|^woodmart/i", $name)) {
+                    $k = $post_type->name;
+                    $v = $post_type->label;
+                    if (!empty($this->allPost($k))) {
+                        $items[$k] = esc_html__($v, 'nesar-widgets');
+                    }
+                }
+            }
+            return $items;
+        }
+    }
+    protected function allPost($slug_name, $order = 'ASC', $orderby = 'date')
+    {
+
+        $items = [];
+        $args = [
+            'post_type' => $slug_name,
+            'posts_per_page' => -1,
+            'orderby'          => $orderby,
+            'order'            => $order,
+            'public'   => true,
+        ];
+        $all_posts = get_posts($args);
+
+        if ($all_posts) {
+            foreach ($all_posts  as $post_type) {
+                $name = $post_type->name;
+                if (!preg_match("/^element|^cms|^woodmart/i", $name)) {
+                    $k = $post_type->ID;
+                    $v = $post_type->post_title;
+                    $items[$k] = esc_html__($v, 'nesar-widgets');
+                }
+            }
+            //var_dump($items);
+            return $items;
+        }
+    }
+
     public function excerptforPost($text, $num = 50)
     {
         $limit = $num + 1;
-        $excerpt = explode(' ', $text, $limit);
+        $excerpt = explode(" ", $text, $limit);
         array_pop($excerpt);
         $excerpt = implode(" ", $excerpt) . "... ";
-        echo $excerpt;
+        return $excerpt;
     }
+
     public function settings()
     {
 
@@ -117,7 +202,51 @@ class TesCardSettings extends TestimonialCard
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
+        $this->add_control(
+            $this->id . 'data_types',
+            [
+                'label' => esc_html__('Testimonial Type', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'static' => 'Static',
+                    'dynamic' => 'Dynamic',
+                ],
+                'default' => 'static',
+            ]
+        );
+        $postTypes = $this->get_post_types();
+        $this->add_control(
+            $this->id . 'post_types',
+            [
+                'label' => esc_html__('Post Type', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => $postTypes,
+                'condition' => [
+                    $this->id . 'data_types' => 'dynamic'
+                ],
+            ]
+        );
+        foreach ($postTypes as $i => $postType) {
 
+            $list = $this->allPost($i);
+            if (!empty($list)) {
+                $this->add_control(
+                    $this->id . 'posts_' . $i,
+                    [
+                        'label' => esc_html__('Select Post', 'nesar-widgets'),
+                        'type' => \Elementor\Controls_Manager::SELECT,
+                        'options' => $list,
+                        'conditions' => [
+                            'relation' => 'and',
+                            'terms' => [
+                                ['name' => $this->id . 'data_types', 'operator' => '===', 'value' => 'dynamic'],
+                                ['name' => $this->id . 'post_types', 'operator' => '===', 'value' => $i],
+                            ],
+                        ],
+                    ]
+                );
+            }
+        }
         $this->add_control(
             $this->id . '_name',
             [
@@ -126,6 +255,23 @@ class TesCardSettings extends TestimonialCard
                 'default' => esc_html__('Name', 'nesar-widgets'),
                 'label_block' => true,
                 'placeholder' => esc_html__('Name of customer', 'nesar-widgets'),
+                'condition' => [
+                    $this->id . 'data_types' => 'static'
+                ],
+            ]
+        );
+
+        $this->add_control(
+            $this->id . '_designation',
+            [
+                'label' => esc_html__('Designation', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__('Designation', 'nesar-widgets'),
+                'label_block' => true,
+                'placeholder' => esc_html__('Designation of customer', 'nesar-widgets'),
+                'condition' => [
+                    $this->id . 'data_types' => 'static'
+                ],
             ]
         );
         $this->add_control(
@@ -138,6 +284,9 @@ class TesCardSettings extends TestimonialCard
                     'active' => true,
                 ],
                 'label_block' => true,
+                'condition' => [
+                    $this->id . 'data_types' => 'static'
+                ],
 
             ]
         );
@@ -147,10 +296,14 @@ class TesCardSettings extends TestimonialCard
                 'label' => esc_html__('Message', 'nesar-widgets'),
                 'type' => \Elementor\Controls_Manager::TEXTAREA,
                 'rows' => 10,
-                'default' => esc_html__('', 'nesar-widgets'),
+                'default' => esc_html__('Here goes Customer Message', 'nesar-widgets'),
                 'placeholder' => esc_html__('Message', 'nesar-widgets'),
+                'condition' => [
+                    $this->id . 'data_types' => 'static'
+                ],
             ]
         );
+
         $this->add_control(
             $this->id . '_image',
             [
@@ -158,6 +311,9 @@ class TesCardSettings extends TestimonialCard
                 'type' => \Elementor\Controls_Manager::MEDIA,
                 'default' => [
                     'url' => \Elementor\Utils::get_placeholder_image_src(),
+                ],
+                'condition' => [
+                    $this->id . 'data_types' => 'static'
                 ],
             ]
         );
@@ -468,8 +624,49 @@ class TesCardSettings extends TestimonialCard
                         'step' => 1,
                     ],
                 ],
+                'default' => [
+                    'size' => 100,
+                    'unit' => 'px',
+                ],
                 'selectors' => [
                     '{{WRAPPER}} .' . $class . ' img' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        $this->add_control(
+            $this->id . '_' . $name . '_height',
+            [
+                'label' => esc_html__('Height', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['%', 'px', 'em', 'vh'],
+                'range' => [
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 10,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'vh' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                ],
+                'default' => [
+                    'size' => 100,
+                    'unit' => 'px',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .' . $class . ' img' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
