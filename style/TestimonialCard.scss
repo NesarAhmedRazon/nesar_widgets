@@ -7,15 +7,12 @@
   grid-auto-flow: column;
   transition-property: all;
   transition-timing-function: linear;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(1, minmax(0, 1fr));
   grid-template-columns: repeat(4, minmax(0, 1fr));
   &:hover {
     text-decoration: none !important;
   }
-  & .tesText {
-    grid-row: span 2 / span 3;
-    grid-column: span 3 / span 3;
-  }
+
   & .tesInfo {
     grid-column: span 3 / span 3;
   }
@@ -23,7 +20,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    grid-row: span 3 / span 3;
     overflow: hidden;
   }
 }
