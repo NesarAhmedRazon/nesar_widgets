@@ -95,8 +95,8 @@ class TestimonialCard extends Widget_Base
                 $attrs = 'href="' . esc_url(get_permalink($postID)) . '"';
                 $image = get_the_post_thumbnail($postID, 'thumbnail', array('class' => 'cusImg'));
                 echo '<a class="tesCard"' . $attrs . '>';
-                echo '<div class="tesText">' . $message . '</div>';
-                echo '<div class="tesInfo"><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
+                echo '<div class="tesInfo">';
+                echo '<div class="tesText">' . $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
                 echo '<div class="tesImg">' . $image . '</div>';
                 echo '</a>';
             }
@@ -113,8 +113,8 @@ class TestimonialCard extends Widget_Base
             $image = $set[$this->id . '_image'];
 
             echo '<a class="tesCard" ' . $attrs . '>';
-            echo '<div class="tesText">' . $message . '</div>';
-            echo '<div class="tesInfo"><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
+            echo '<div class="tesInfo">';
+            echo '<div class="tesText">' . $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
             echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
             echo '</a>';
         }
