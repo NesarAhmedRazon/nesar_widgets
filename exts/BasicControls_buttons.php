@@ -11,7 +11,7 @@ class BasicControls_buttons extends MultiButtons
     public function flex($value)
     {
         if ($value = 1) {
-            return "flex: 1 1 auto";
+            return "flex: 1 1 auto;width:100%;";
         }
     }
     public function basic_setings($args = [])
@@ -202,7 +202,7 @@ class BasicControls_buttons extends MultiButtons
                 'type' => \Elementor\Controls_Manager::CHOOSE,
                 'options' => [
                     "1" => [
-                        'title' => esc_html__('Fill s', 'nesar-widgets'),
+                        'title' => esc_html__('Fill', 'nesar-widgets'),
                         'icon' => 'eicon-grow',
                     ],
                 ],
