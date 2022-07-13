@@ -188,7 +188,7 @@ class TesCardSettings extends TestimonialCard
         $limit = $num + 1;
         $excerpt = explode(" ", $text, $limit);
         array_pop($excerpt);
-        $excerpt = implode(" ", $excerpt) . "... ";
+        $excerpt = implode(' ', $excerpt) . '...';
         return $excerpt;
     }
 
