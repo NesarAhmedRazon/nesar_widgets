@@ -75,7 +75,7 @@ class TestimonialCard extends Widget_Base
         $set = $this->get_settings_for_display();
         $data_type = $set[$this->id . 'data_types'];
         $msize = $set[$this->id . '_msg_size']['size'];
-
+        $img_align = $set[$this->id . '_image_align'];
         $attrs = $this->get_render_attribute_string($this->id . '_link');
         $url = '';
         $image = [];
@@ -95,9 +95,14 @@ class TestimonialCard extends Widget_Base
                 $attrs = 'href="' . esc_url(get_permalink($postID)) . '"';
                 $image = get_the_post_thumbnail($postID, 'thumbnail', array('class' => 'cusImg'));
                 echo '<a class="tesCard"' . $attrs . '>';
+                if ($img_align == 'left') {
+                    echo '<div class="tesImg">' . $image . '</div>';
+                }
                 echo '<div class="tesInfo">';
                 echo '<div class="tesText">' . $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
-                echo '<div class="tesImg">' . $image . '</div>';
+                if ($img_align == 'right') {
+                    echo '<div class="tesImg">' . $image . '</div>';
+                }
                 echo '</a>';
             }
         } else {
@@ -113,9 +118,15 @@ class TestimonialCard extends Widget_Base
             $image = $set[$this->id . '_image'];
 
             echo '<a class="tesCard" ' . $attrs . '>';
+            if ($img_align == 'left') {
+                echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
+            }
             echo '<div class="tesInfo">';
             echo '<div class="tesText">' . $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
-            echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
+
+            if ($img_align == 'right') {
+                echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
+            }
             echo '</a>';
         }
     }
@@ -320,6 +331,7 @@ class TesCardSettings extends TestimonialCard
 
         $this->end_controls_section();
     }
+
     public function cardstyles()
     {
         $this->start_controls_section(
@@ -327,6 +339,25 @@ class TesCardSettings extends TestimonialCard
             [
                 'label' => esc_html__('Card', 'nesar-widgets'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+        $this->add_responsive_control(
+            $this->id . '_image_align',
+            [
+                'label' => esc_html__('Alignment', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [
+                        'title' => esc_html__('Left', 'nesar-widgets'),
+                        'icon' => 'nw-icon_left_customer',
+                    ],
+                    'right' => [
+                        'title' => esc_html__('Right', 'nesar-widgets'),
+                        'icon' => 'nw-icon_right_customer',
+                    ],
+                ],
+                'default' => 'right',
+
             ]
         );
         $this->add_control(
