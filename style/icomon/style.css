@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'itprix';
-  src:  url('fonts/itprix.eot?1fgq9');
-  src:  url('fonts/itprix.eot?1fgq9#iefix') format('embedded-opentype'),
-    url('fonts/itprix.ttf?1fgq9') format('truetype'),
-    url('fonts/itprix.woff?1fgq9') format('woff'),
-    url('fonts/itprix.svg?1fgq9#itprix') format('svg');
+  src:  url('fonts/itprix.eot?g66xyc');
+  src:  url('fonts/itprix.eot?g66xyc#iefix') format('embedded-opentype'),
+    url('fonts/itprix.ttf?g66xyc') format('truetype'),
+    url('fonts/itprix.woff?g66xyc') format('woff'),
+    url('fonts/itprix.svg?g66xyc#itprix') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,14 +25,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.nw-icon_right_customer:before {
+  content: "\e912";
+}
+.nw-icon_left_customer:before {
+  content: "\e913";
+}
 .nw-desc:before {
-  content: "\e903";
+  content: "\e911";
 }
 .nw-asc:before {
-  content: "\e904";
+  content: "\e90f";
 }
 .nw-icon_right:before {
-  content: "\e900";
+  content: "\e90e";
 }
 .nw-icon_left:before {
   content: "\e910";
@@ -44,10 +50,10 @@
   content: "\e926";
 }
 .nw-list-paragraph:before {
-  content: "\e901";
+  content: "\e90d";
 }
 .nw-Tallyfy_icon:before {
-  content: "\e902";
+  content: "\e905";
 }
 .nw-list-ul:before {
   content: "\f0ca";
