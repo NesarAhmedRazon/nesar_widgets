@@ -177,19 +177,23 @@ class BasicControls_buttons extends MultiButtons
                 'label' => esc_html__('Button Direction', 'nesar-widgets'),
                 'type' => \Elementor\Controls_Manager::CHOOSE,
                 'options' => [
-                    'nowrap' => [
+                    'row' => [
                         'title' => esc_html__('Row', 'nesar-widgets'),
                         'icon' => 'eicon-h-align-right',
                     ],
-                    'wrap' => [
+                    'column' => [
                         'title' => esc_html__('Column', 'nesar-widgets'),
                         'icon' => 'eicon-v-align-bottom',
                     ],
+                    'wrap' => [
+                        'title' => esc_html__('Column', 'nesar-widgets'),
+                        'icon' => 'eicon-wrap',
+                    ],
                 ],
-                'default' => '',
+                'default' => 'initial',
                 'toggle' => true,
                 'selectors' => [
-                    '{{WRAPPER}} .' . $class['parent'] => 'flex-wrap: {{VALUE}}',
+                    '{{WRAPPER}} .' . $class['parent'] => 'flex-flow: {{VALUE}}',
                 ],
 
             ]

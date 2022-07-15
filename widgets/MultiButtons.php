@@ -100,3 +100,16 @@ class MultiButtons extends Widget_Base
     {
     }
 }
+
+
+class MultiButtonSettings extends MultiButtons
+{
+    public function flex_dir($val = '')
+    {
+        if ($val == 'nowrap') {
+            return 'flex-wrap:nowrap';
+        } elseif ($val == 'wrap') {
+            return 'flex-wrap:wrap';
+        }
+    }
+}
