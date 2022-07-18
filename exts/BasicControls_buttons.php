@@ -58,7 +58,7 @@ class BasicControls_buttons extends MultiButtons
                 $this->add_control(
                     $id . '_' . strtolower($repeater) . '_color',
                     [
-                        'label' => esc_html__('Background Color', 'nesar-widgets'),
+                        'label' => esc_html__('Color', 'nesar-widgets'),
                         'type' => \Elementor\Controls_Manager::COLOR,
                         'selectors' => [
                             '{{WRAPPER}} .multiButtons_button' => 'color: {{VALUE}}',
@@ -310,7 +310,6 @@ class BasicControls_buttons extends MultiButtons
                 'selectors' => [
                     '{{WRAPPER}} {{CURRENT_ITEM}}' => 'color: {{VALUE}}',
                 ],
-                'default' => '#ffffff',
 
 
             ]
