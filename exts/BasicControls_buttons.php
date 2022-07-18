@@ -471,6 +471,19 @@ class BasicControls_buttons extends MultiButtons
             ]
         );
         $reps->add_control(
+            $id . '_' . strtolower($repeater) . '_color',
+            [
+                'label' => esc_html__('Background Color', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} {{CURRENT_ITEM}} .btn_icon' => 'color: {{VALUE}}',
+                ],
+                'default' => '#369C4E',
+                'condition' => [$id . '_' . strtolower($repeater) . '_icon_show' => 'yes'],
+
+            ]
+        );
+        $reps->add_control(
             $id . '_' . strtolower($repeater) . '_icon',
             [
                 'label' => esc_html__('Icon', 'nesar-widgets'),
