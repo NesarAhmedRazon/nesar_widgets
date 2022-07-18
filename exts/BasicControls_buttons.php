@@ -478,7 +478,6 @@ class BasicControls_buttons extends MultiButtons
                 'selectors' => [
                     '{{WRAPPER}} {{CURRENT_ITEM}} .btn_icon' => 'color: {{VALUE}}',
                 ],
-                'default' => '#369C4E',
                 'condition' => [$id . '_' . strtolower($repeater) . '_icon_show' => 'yes'],
 
             ]
