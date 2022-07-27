@@ -4,7 +4,7 @@
   cursor: pointer;
   text-decoration: none;
   color: #333;
-  grid-auto-flow: column;
+  // grid-auto-flow: column;
   transition-property: all;
   transition-timing-function: linear;
   grid-template-rows: repeat(1, minmax(0, 1fr));
@@ -23,6 +23,37 @@
     overflow: hidden;
     & img {
       max-width: fit-content;
+    }
+  }
+  & > .tesText {
+    grid-column: span 4 / span 4;
+    padding: 0.5em 0em 0em 0.4em;
+    position: relative;
+    &:before {
+      content: "\e810";
+      color: #c5c5c55e;
+      font-family: eicons;
+      position: absolute;
+      transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      margin: -0.5em -0.4em;
+      font-size: 3em;
+      z-index: -1;
+    }
+    &:after {
+      content: "\e910";
+      font-family: eicons;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      color: #23a455;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
     }
   }
 }
