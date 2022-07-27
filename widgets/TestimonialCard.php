@@ -608,7 +608,7 @@ class TesCardSettings extends TestimonialCard
                         'w' => [
                             'min' => 0,
                             'max' => 500,
-                            'step' => 10,
+                            'step' => 5,
                         ],
                     ],
                     'default' => [
