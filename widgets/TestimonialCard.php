@@ -78,13 +78,10 @@ class TestimonialCard extends Widget_Base
         $img_align = $set[$this->id . '_image_align'];
         $attrs = $this->get_render_attribute_string($this->id . '_link');
         $url = '';
-        $image = [];
-
-?>
+        $image = []; ?>
 
 <?php
         if ($data_type == 'dynamic') {
-
             $post_type = $set[$this->id . 'post_types'];
             $postID = $set[$this->id . 'posts_' . $post_type];
             if ($postID !== "") {
@@ -138,7 +135,6 @@ class TestimonialCard extends Widget_Base
 
 class TesCardSettings extends TestimonialCard
 {
-
     public function get_meta_data($field, $id = false)
     {
         $meta = get_post_meta($id, $field, true);
@@ -173,7 +169,6 @@ class TesCardSettings extends TestimonialCard
     }
     protected function allPost($slug_name, $order = 'ASC', $orderby = 'date')
     {
-
         $items = [];
         $args = [
             'post_type' => $slug_name,
@@ -209,7 +204,6 @@ class TesCardSettings extends TestimonialCard
 
     public function settings()
     {
-
         $this->start_controls_section(
             $this->id . '_section',
             [
@@ -242,7 +236,6 @@ class TesCardSettings extends TestimonialCard
             ]
         );
         foreach ($postTypes as $i => $postType) {
-
             $list = $this->allPost($i);
             if (!empty($list)) {
                 $this->add_control(
@@ -365,6 +358,54 @@ class TesCardSettings extends TestimonialCard
             ]
         );
         $this->add_control(
+            $this->id . '_card_grid',
+            [
+                'label' => esc_html__('Columns', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['fr'],
+                'range' => [
+                    'fr' => [
+                        'min' => 2,
+                        'max' => 6,
+                        'step' => 1,
+                    ]
+                ],
+                'default' => [
+                    'unit' => 'fr',
+                    'size' => 4,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .tesCard' => 'grid-template-columns: repeat({{SIZE}}, minmax(0, 1fr))',
+                ],
+                'frontend_available' => true,
+            ]
+        );
+
+        $this->add_control(
+            $this->id . '_card_grid_imga',
+            [
+                'label' => esc_html__('Image Column Size', 'nesar-widgets'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['fr'],
+                'range' => [
+                    'fr' => [
+                        'min' => 1,
+                        'max' => 5,
+                        'step' => 1,
+                    ]
+                ],
+                'default' => [
+                    'unit' => 'fr',
+                    'size' => 1,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .tesImg' => 'grid-column: span {{SIZE}} / span {{SIZE}};',
+                    '{{WRAPPER}} .tesInfo' => 'grid-column: span calc({{' . $this->id . '_card_grid.SIZE}} - {{SIZE}}) / span calc({{' . $this->id . '_card_grid.SIZE}} - {{SIZE}});',
+                ],
+                // Here i Learned how to get value form another control
+            ]
+        );
+        $this->add_control(
             $this->id . '_card_gap',
             [
                 'label' => esc_html__('Content Spacing', 'nesar-widgets'),
@@ -420,7 +461,6 @@ class TesCardSettings extends TestimonialCard
         );
         $this->start_controls_tabs(
             $this->id . '_card_tabs',
-
         );
         $this->start_controls_tab(
             $this->id . '_card_normal_tab',
@@ -558,7 +598,6 @@ class TesCardSettings extends TestimonialCard
         );
         $this->start_controls_tabs(
             $this->id . '_' . $name . '_tabs',
-
         );
         $this->start_controls_tab(
             $this->id . '_' . $name . '_normal_tab',
@@ -631,80 +670,80 @@ class TesCardSettings extends TestimonialCard
             ]
         );
 
-        $this->add_control(
-            $this->id . '_' . $name . '_width',
-            [
-                'label' => esc_html__('Width', 'nesar-widgets'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['%', 'px', 'em', 'vh'],
-                'range' => [
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                    'px' => [
-                        'min' => 0,
-                        'max' => 1000,
-                        'step' => 10,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                    'vh' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
-                'default' => [
-                    'size' => 100,
-                    'unit' => 'px',
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .' . $class . ' img' => 'width: {{SIZE}}{{UNIT}};',
-                ],
-            ]
-        );
-        $this->add_control(
-            $this->id . '_' . $name . '_height',
-            [
-                'label' => esc_html__('Height', 'nesar-widgets'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['%', 'px', 'em', 'vh'],
-                'range' => [
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                    'px' => [
-                        'min' => 0,
-                        'max' => 1000,
-                        'step' => 10,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                    'vh' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
-                'default' => [
-                    'size' => 100,
-                    'unit' => 'px',
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .' . $class . ' img' => 'height: {{SIZE}}{{UNIT}};',
-                ],
-            ]
-        );
+        // $this->add_control(
+        //     $this->id . '_' . $name . '_width',
+        //     [
+        //         'label' => esc_html__('Width', 'nesar-widgets'),
+        //         'type' => \Elementor\Controls_Manager::SLIDER,
+        //         'size_units' => ['%', 'px', 'em', 'vh'],
+        //         'range' => [
+        //             '%' => [
+        //                 'min' => 0,
+        //                 'max' => 100,
+        //                 'step' => 1,
+        //             ],
+        //             'px' => [
+        //                 'min' => 0,
+        //                 'max' => 1000,
+        //                 'step' => 10,
+        //             ],
+        //             'em' => [
+        //                 'min' => 0,
+        //                 'max' => 100,
+        //                 'step' => 1,
+        //             ],
+        //             'vh' => [
+        //                 'min' => 0,
+        //                 'max' => 100,
+        //                 'step' => 1,
+        //             ],
+        //         ],
+        //         'default' => [
+        //             'size' => 100,
+        //             'unit' => 'px',
+        //         ],
+        //         'selectors' => [
+        //             '{{WRAPPER}} .' . $class . ' img' => 'width: {{SIZE}}{{UNIT}};',
+        //         ],
+        //     ]
+        // );
+        // $this->add_control(
+        //     $this->id . '_' . $name . '_height',
+        //     [
+        //         'label' => esc_html__('Height', 'nesar-widgets'),
+        //         'type' => \Elementor\Controls_Manager::SLIDER,
+        //         'size_units' => ['%', 'px', 'em', 'vh'],
+        //         'range' => [
+        //             '%' => [
+        //                 'min' => 0,
+        //                 'max' => 100,
+        //                 'step' => 1,
+        //             ],
+        //             'px' => [
+        //                 'min' => 0,
+        //                 'max' => 1000,
+        //                 'step' => 10,
+        //             ],
+        //             'em' => [
+        //                 'min' => 0,
+        //                 'max' => 100,
+        //                 'step' => 1,
+        //             ],
+        //             'vh' => [
+        //                 'min' => 0,
+        //                 'max' => 100,
+        //                 'step' => 1,
+        //             ],
+        //         ],
+        //         'default' => [
+        //             'size' => 100,
+        //             'unit' => 'px',
+        //         ],
+        //         'selectors' => [
+        //             '{{WRAPPER}} .' . $class . ' img' => 'height: {{SIZE}}{{UNIT}};',
+        //         ],
+        //     ]
+        // );
         $this->add_group_control(
             \Elementor\Group_Control_Border::get_type(),
             [
