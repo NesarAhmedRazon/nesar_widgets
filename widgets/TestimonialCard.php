@@ -230,11 +230,18 @@ class TesCardSettings extends TestimonialCard
                 'label' => esc_html__('Post Type', 'nesar-widgets'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => $postTypes,
+                'frontend_available' => true,
                 'condition' => [
                     $this->id . 'data_types' => 'dynamic'
                 ],
             ]
         );
+
+
+
+
+
+
         foreach ($postTypes as $i => $postType) {
             $list = $this->allPost($i);
             if (!empty($list)) {
