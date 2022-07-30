@@ -1,9 +1,10 @@
 .tesCard {
-  display: grid;
   gap: 0.5em;
-  cursor: pointer;
-  text-decoration: none;
+  display: grid;
   color: #333;
+  cursor: pointer;
+  place-items: center;
+  text-decoration: none;
   transition-property: all;
   transition-timing-function: linear;
   grid-template-rows: repeat(1, minmax(0, 1fr));
@@ -14,37 +15,37 @@
 
   & .tesImg {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
     grid-area: 1 / 1;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
     & > img {
-      margin: 0;
+      margin: 0 !important;
       aspect-ratio: 1 / 1;
     }
   }
   & > .tesText {
+    z-index: 0;
+    position: relative;
     grid-column: span 4 / span 4;
     padding: 0.5rem 0rem 0rem 0.4rem;
-    position: relative;
-    z-index: 0;
 
     & > i {
+      z-index: -1;
       color: #c5c5c55e;
-      font-family: eicons;
       position: absolute;
+      font-family: eicons;
       transform: scaleX(-1) translate(50%, -25%);
       -webkit-transform: scaleX(-1) translate(50%, -25%);
-      z-index: -1;
     }
     &:after {
-      content: "\e910";
-      font-family: eicons;
-      position: absolute;
       right: 0;
       bottom: 0;
-      color: #23a455;
       opacity: 0;
+      content: "\e910";
+      color: #23a455;
+      position: absolute;
+      font-family: eicons;
       transition: all 0.3s;
     }
     &:hover {
