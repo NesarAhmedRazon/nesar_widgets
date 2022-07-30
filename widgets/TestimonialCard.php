@@ -413,6 +413,18 @@ class TesCardSettings extends TestimonialCard
             ]
         );
         $this->add_control(
+            $this->id . '_card_grid_msg',
+            [
+                'label' => esc_html__('Msg size', 'plugin-name'),
+                'type' => \Elementor\Controls_Manager::HIDDEN,
+                'default' => 'traditional',
+                'selectors' => [
+                    '{{WRAPPER}} .tesText' => 'grid-column: span {{' . $this->id . '_card_grid.SIZE}} / span {{' . $this->id . '_card_grid.SIZE}};',
+                ],
+                'condition' => [$this->id . '_image_align' => 'left'],
+            ]
+        );
+        $this->add_control(
             $this->id . '_card_gap',
             [
                 'label' => esc_html__('Content Spacing', 'nesar-widgets'),
