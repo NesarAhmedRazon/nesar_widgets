@@ -230,11 +230,18 @@ class TesCardSettings extends TestimonialCard
                 'label' => esc_html__('Post Type', 'nesar-widgets'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => $postTypes,
+                'frontend_available' => true,
                 'condition' => [
                     $this->id . 'data_types' => 'dynamic'
                 ],
             ]
         );
+
+
+
+
+
+
         foreach ($postTypes as $i => $postType) {
             $list = $this->allPost($i);
             if (!empty($list)) {
@@ -403,6 +410,18 @@ class TesCardSettings extends TestimonialCard
                     '{{WRAPPER}} .tesInfo' => 'grid-column: span calc({{' . $this->id . '_card_grid.SIZE}} - {{SIZE}}) / span calc({{' . $this->id . '_card_grid.SIZE}} - {{SIZE}});',
                 ],
                 // Here i Learned how to get value form another control
+            ]
+        );
+        $this->add_control(
+            $this->id . '_card_grid_msg',
+            [
+                'label' => esc_html__('Msg size', 'plugin-name'),
+                'type' => \Elementor\Controls_Manager::HIDDEN,
+                'default' => 'traditional',
+                'selectors' => [
+                    '{{WRAPPER}} .tesText' => 'grid-column: span {{' . $this->id . '_card_grid.SIZE}} / span {{' . $this->id . '_card_grid.SIZE}};',
+                ],
+                'condition' => [$this->id . '_image_align' => 'left'],
             ]
         );
         $this->add_control(
@@ -647,7 +666,7 @@ class TesCardSettings extends TestimonialCard
                         'w' => [
                             'min' => 0,
                             'max' => 500,
-                            'step' => 10,
+                            'step' => 5,
                         ],
                     ],
                     'default' => [

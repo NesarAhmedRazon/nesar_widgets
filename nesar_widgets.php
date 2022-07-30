@@ -8,7 +8,7 @@
 * Plugin URI: https://github.com/NesarAhmedRazon/nesar_widgets
 * Description: This plugin will add some new Elementor Widgets.
 * Author: Nesar Ahmed
-* Version: 1.4.96.1
+* Version: 1.4.98
 * Elementor tested up to: 3.6.6
 * Elementor Pro tested up to: 3.7.2
 * Author URI: https://github.com/NesarAhmedRazon/
