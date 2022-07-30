@@ -65,8 +65,8 @@ class TestimonialCard extends Widget_Base
         $set->settings();
         $set->cardstyles();
         $set->textstyles('msg', 'Message', 'tesText');
-        $set->textstyles('nam', 'Name', 'tesName', ['size']);
-        $set->textstyles('des', 'Designation', 'tesDes', ['size']);
+        $set->textstyles('nam', 'Name', 'tesName', ['size', 'icon']);
+        $set->textstyles('des', 'Designation', 'tesDes', ['size', 'icon']);
         $set->custImage('img', 'Image', 'tesImg');
     }
     protected function render()
@@ -75,6 +75,7 @@ class TestimonialCard extends Widget_Base
         $set = $this->get_settings_for_display();
         $data_type = $set[$this->id . 'data_types'];
         $msize = $set[$this->id . '_msg_size']['size'];
+        $ico = $set[$this->id . '_msg_icon'];
         $img_align = $set[$this->id . '_image_align'];
         $attrs = $this->get_render_attribute_string($this->id . '_link');
         $url = '';
@@ -95,11 +96,19 @@ class TestimonialCard extends Widget_Base
                 if ($img_align == 'left') {
                     echo '<div class="tesImg">' . $image . '</div>';
                     echo '<div class="tesInfo">';
-                    echo '<div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div><div class="tesText">' . $message . '</div>';
+                    echo '<div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div><div class="tesText">';
+                    if ($ico == 'yes') {
+                        \Elementor\Icons_Manager::render_icon($set[$this->id . '_msg_icon_file'], ['aria-hidden' => 'true']);
+                    }
+                    echo $message . '</div>';
                 }
                 if ($img_align == 'right') {
                     echo '<div class="tesInfo">';
-                    echo '<div class="tesText">' . $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
+                    echo '<div class="tesText">';
+                    if ($ico == 'yes') {
+                        \Elementor\Icons_Manager::render_icon($set[$this->id . '_msg_icon_file'], ['aria-hidden' => 'true']);
+                    }
+                    echo  $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
                     echo '<div class="tesImg">' . $image . '</div>';
                 }
                 echo '</a>';
@@ -120,12 +129,21 @@ class TestimonialCard extends Widget_Base
             if ($img_align == 'left') {
                 echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
                 echo '<div class="tesInfo">';
-                echo '<div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div><div class="tesText">' . $message . '</div>';
+                echo '<div class="tesName">' . $name . '</div><div class="tesDes">' . $desig .
+                    '</div></div><div class="tesText">';
+                if ($ico == 'yes') {
+                    \Elementor\Icons_Manager::render_icon($set[$this->id . '_msg_icon_file'], ['aria-hidden' => 'true']);
+                }
+                echo $message . '</div>';
             }
 
             if ($img_align == 'right') {
                 echo '<div class="tesInfo">';
-                echo '<div class="tesText">' . $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
+                echo '<div class="tesText">';
+                if ($ico == 'yes') {
+                    \Elementor\Icons_Manager::render_icon($set[$this->id . '_msg_icon_file'], ['aria-hidden' => 'true']);
+                }
+                echo  $message . '</div><div class="tesName">' . $name . '</div><div class="tesDes">' . $desig . '</div></div>';
                 echo '<div class="tesImg"><img src="' . $image['url'] . '" alt="' . ((in_array('alt', $image)) ? $image['alt'] : "Image of " . $name) . '" class="cusImg"></div>';
             }
             echo '</a>';
@@ -655,6 +673,7 @@ class TesCardSettings extends TestimonialCard
         );
         $this->end_controls_tab();
         $this->end_controls_tabs();
+
         if (!in_array('size', $dis)) {
             $this->add_control(
                 $this->id . '_' . $name . '_size',
@@ -676,6 +695,67 @@ class TesCardSettings extends TestimonialCard
                 ]
             );
         }
+        if (!in_array('icon', $dis)) {
+            $this->add_control(
+                $this->id . '_' . $name . '_icon',
+                [
+                    'label' => esc_html__('Add Icon', 'nesar-widgets'),
+                    'type' => \Elementor\Controls_Manager::SWITCHER,
+                    'label_on' => esc_html__('Yes', 'nesar-widgets'),
+                    'label_off' => esc_html__('No', 'nesar-widgets'),
+                    'return_value' => 'yes',
+                    'default' => 'no',
+                    'separator' => 'before',
+                ]
+            );
+            $this->add_control(
+                $this->id . '_' . $name . '_icon_file',
+                [
+                    'label' => esc_html__('Icon', 'nesar-widgets'),
+                    'type' => \Elementor\Controls_Manager::ICONS,
+                    'default' => [
+                        'value' => 'eicon-blockquote',
+                        'library' => 'eicons',
+                    ],
+                    'condition' => [$this->id . '_' . $name . '_icon' => 'yes'],
+                ]
+            );
+            $this->add_control(
+                $this->id . '_' . $name . '_icon_size',
+                [
+                    'label' => esc_html__('Icon Size', 'plugin-name'),
+                    'type' => \Elementor\Controls_Manager::SLIDER,
+                    'size_units' => ['px', 'em', 'rem', '%'],
+                    'range' => [
+                        'px' => [
+                            'min' => 0,
+                            'max' => 100,
+                            'step' => 5,
+                        ],
+                        'em' => [
+                            'min' => 0,
+                            'max' => 5,
+                            'step' => 0.1,
+                        ],
+                        'rem' => [
+                            'min' => 0,
+                            'max' => 6,
+                            'step' => 0.1,
+                        ],
+
+                    ],
+                    'default' => [
+                        'unit' => 'em',
+                        'size' => 1,
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .tesText > i' => 'font-size: {{SIZE}}{{UNIT}};',
+                        '{{WRAPPER}} .tesText' => 'padding-top: calc({{SIZE}}{{UNIT}}/2);padding-left: calc({{SIZE}}{{UNIT}}/2);',
+
+                    ],
+                ]
+            );
+        }
         $this->end_controls_section();
     }
 
@@ -688,81 +768,6 @@ class TesCardSettings extends TestimonialCard
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
-
-        // $this->add_control(
-        //     $this->id . '_' . $name . '_width',
-        //     [
-        //         'label' => esc_html__('Width', 'nesar-widgets'),
-        //         'type' => \Elementor\Controls_Manager::SLIDER,
-        //         'size_units' => ['%', 'px', 'em', 'vh'],
-        //         'range' => [
-        //             '%' => [
-        //                 'min' => 0,
-        //                 'max' => 100,
-        //                 'step' => 1,
-        //             ],
-        //             'px' => [
-        //                 'min' => 0,
-        //                 'max' => 1000,
-        //                 'step' => 10,
-        //             ],
-        //             'em' => [
-        //                 'min' => 0,
-        //                 'max' => 100,
-        //                 'step' => 1,
-        //             ],
-        //             'vh' => [
-        //                 'min' => 0,
-        //                 'max' => 100,
-        //                 'step' => 1,
-        //             ],
-        //         ],
-        //         'default' => [
-        //             'size' => 100,
-        //             'unit' => 'px',
-        //         ],
-        //         'selectors' => [
-        //             '{{WRAPPER}} .' . $class . ' img' => 'width: {{SIZE}}{{UNIT}};',
-        //         ],
-        //     ]
-        // );
-        // $this->add_control(
-        //     $this->id . '_' . $name . '_height',
-        //     [
-        //         'label' => esc_html__('Height', 'nesar-widgets'),
-        //         'type' => \Elementor\Controls_Manager::SLIDER,
-        //         'size_units' => ['%', 'px', 'em', 'vh'],
-        //         'range' => [
-        //             '%' => [
-        //                 'min' => 0,
-        //                 'max' => 100,
-        //                 'step' => 1,
-        //             ],
-        //             'px' => [
-        //                 'min' => 0,
-        //                 'max' => 1000,
-        //                 'step' => 10,
-        //             ],
-        //             'em' => [
-        //                 'min' => 0,
-        //                 'max' => 100,
-        //                 'step' => 1,
-        //             ],
-        //             'vh' => [
-        //                 'min' => 0,
-        //                 'max' => 100,
-        //                 'step' => 1,
-        //             ],
-        //         ],
-        //         'default' => [
-        //             'size' => 100,
-        //             'unit' => 'px',
-        //         ],
-        //         'selectors' => [
-        //             '{{WRAPPER}} .' . $class . ' img' => 'height: {{SIZE}}{{UNIT}};',
-        //         ],
-        //     ]
-        // );
         $this->add_group_control(
             \Elementor\Group_Control_Border::get_type(),
             [

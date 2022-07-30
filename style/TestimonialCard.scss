@@ -4,7 +4,6 @@
   cursor: pointer;
   text-decoration: none;
   color: #333;
-  // grid-auto-flow: column;
   transition-property: all;
   transition-timing-function: linear;
   grid-template-rows: repeat(1, minmax(0, 1fr));
@@ -13,9 +12,6 @@
     text-decoration: none !important;
   }
 
-  & .tesInfo {
-    //grid-column: span 3 / span 3;
-  }
   & .tesImg {
     display: flex;
     justify-content: center;
@@ -32,15 +28,13 @@
     padding: 0.5rem 0rem 0rem 0.4rem;
     position: relative;
     z-index: 0;
-    &:before {
-      content: "\e810";
+
+    & > i {
       color: #c5c5c55e;
       font-family: eicons;
       position: absolute;
-      transform: scaleX(-1);
-      -webkit-transform: scaleX(-1);
-      margin: -0.5rem -0.4rem;
-      font-size: 3em;
+      transform: scaleX(-1) translate(50%, -25%);
+      -webkit-transform: scaleX(-1) translate(50%, -25%);
       z-index: -1;
     }
     &:after {
