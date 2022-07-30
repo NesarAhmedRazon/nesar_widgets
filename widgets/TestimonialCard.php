@@ -685,7 +685,7 @@ class TesCardSettings extends TestimonialCard
                         'w' => [
                             'min' => 0,
                             'max' => 500,
-                            'step' => 5,
+                            'step' => 1,
                         ],
                     ],
                     'default' => [
@@ -753,6 +753,7 @@ class TesCardSettings extends TestimonialCard
                         '{{WRAPPER}} .tesText' => 'padding-top: calc({{SIZE}}{{UNIT}}/2);padding-left: calc({{SIZE}}{{UNIT}}/2);',
 
                     ],
+                    'condition' => [$this->id . '_' . $name . '_icon' => 'yes'],
                 ]
             );
         }
