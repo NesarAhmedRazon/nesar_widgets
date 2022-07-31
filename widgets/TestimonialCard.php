@@ -406,7 +406,7 @@ class TesCardSettings extends TestimonialCard
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             $this->id . '_card_grid_imga',
             [
                 'label' => esc_html__('Image Column Size', 'nesar-widgets'),
