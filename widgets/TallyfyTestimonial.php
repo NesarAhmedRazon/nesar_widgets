@@ -810,7 +810,11 @@ class TallyfyTestimonial extends Widget_Base
         $this->end_controls_section();
     }
 
-
+    protected function tf_tax_query($slug)
+    {
+        $taxonomies = get_object_taxonomies($slug, 'names');
+        return $taxonomies[0];
+    }
 
     protected function render()
     {
@@ -820,7 +824,11 @@ class TallyfyTestimonial extends Widget_Base
         $filter_align = $settings['filters_align'];
         $filter_x_gap = $settings['filter_x_gap'];
         $filter_y_gap = $settings['filter_y_gap'];
+
+
+
         if ($slug_name !== "") {
+            $taxan = $this->tf_tax_query($slug_name);
             $args = [
                 'post_type' => $slug_name,
                 'posts_per_page' => -1,
@@ -835,7 +843,7 @@ class TallyfyTestimonial extends Widget_Base
                 if ($show_cats === "yes") {
                     $tax = $this->get_taxes($slug_name);
                     $terms = get_terms(array(
-                        'taxonomy' => 'themo_project_type',
+                        'taxonomy' => $taxan,
                         'hide_empty' => true,
                         'orderby' => 'name',
                     ));
@@ -860,70 +868,55 @@ class TallyfyTestimonial extends Widget_Base
                     $view = $this->get_meta_data('link_check_value', $id);
                     $msg = $this->get_meta_data('user_review', $id);
                     $ico = $settings['icon'];
-                    //$allterms = get_the_terms( $id , $terms );
-
-
-
-
                     if (!in_array($msg, array(" ", "", '', null))) {
                         $cats = '';
                         if ($show_cats === "yes") {
-                            $terms_byPOst = get_the_terms($id, 'themo_project_type');
+                            $terms_byPOst = get_the_terms($id, $taxan);
                             if ($terms_byPOst && !is_wp_error($terms_byPOst)) {
-                                $cat_list = [];
+
                                 foreach ($terms_byPOst as $tbp) {
                                     $cats_list[] = $tbp->slug;
                                 }
                                 $cats = join(" ", $cats_list);
                             }
                         } ?>
-<div class="tallyfy_item mix <?= $cats; ?>">
+                        <div class="tallyfy_item mix <?php echo $cats; ?>">
 
-    <div class="tallyfy_item_body">
-        <p class="msg"><?php echo $msg;
+                            <div class="tallyfy_item_body">
+                                <p class="msg"><?php echo $msg; ?></p>
+                                <div class="icon-wrapper">
+                                    <?php \Elementor\Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']); ?>
+                                </div>
 
-                                                //$allterms = get_the_terms( $id , $terms );
-                                                //var_dump($terms);
-                                                ?></p>
-        <div class="icon-wrapper">
-            <?php \Elementor\Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']); ?>
-        </div>
-
-    </div>
-    <?php
+                            </div>
+                            <?php
                             if ('on' !== $settings['heading_link']) {
                             ?>
-    <div class="tallyfy_item_title"><?php echo $this->get_meta_data('user_name', $id); ?></div>
-    <?php
+                                <div class="tallyfy_item_title"><?php echo $this->get_meta_data('user_name', $id); ?></div>
+                            <?php
                             } else { ?>
-    <a href="<?php the_permalink(); ?>"
-        class="tallyfy_item_title"><?php echo $this->get_meta_data('user_name', $id); ?></a>
-    <?php } ?>
-    <p class="tallyfy_item_subTitle"><?php echo $this->get_meta_data('user_designation', $id); ?></p>
+                                <a href="<?php the_permalink(); ?>" class="tallyfy_item_title"><?php echo $this->get_meta_data('user_name', $id); ?></a>
+                            <?php } ?>
+                            <p class="tallyfy_item_subTitle"><?php echo $this->get_meta_data('user_designation', $id); ?></p>
 
-    <?php
+                            <?php
                             if (('yes' === $settings['show_link']) && !in_array($view, array('Off', 'off'))) {
                             ?>
-    <a class="tallyfy_item_footer" href="<?php the_permalink(); ?>"
-        title="<?php the_title_attribute(); ?>"><?php echo $settings['link_text']; ?></a>
-    <?php
+                                <a class="tallyfy_item_footer" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $settings['link_text']; ?></a>
+                            <?php
                             } ?>
 
 
-</div>
+                        </div>
 
-<?php
+                <?php
                     }
                 // End entry loop
                 endwhile; ?>
-</div>
+                </div>
 <?php
                 wp_reset_postdata();
             endif;
         }
-    }
-
-    protected function content_template()
-    {
     }
 }
