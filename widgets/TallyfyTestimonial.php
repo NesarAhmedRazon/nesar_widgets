@@ -870,6 +870,7 @@ class TallyfyTestimonial extends Widget_Base
                     $ico = $settings['icon'];
                     if (!in_array($msg, array(" ", "", '', null))) {
                         $cats = '';
+                        $cats_list = [];
                         if ($show_cats === "yes") {
                             $terms_byPOst = get_the_terms($id, $taxan);
                             if ($terms_byPOst && !is_wp_error($terms_byPOst)) {

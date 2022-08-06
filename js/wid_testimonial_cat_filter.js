@@ -5,12 +5,17 @@ if (url.includes("?")) {
   const urlParams = new URLSearchParams(queryString);
   const category = urlParams.get("cat");
   if (category !== null) {
-    if (containerEl) {
+    let item = document.querySelector("." + category);
+    if (containerEl && item !== null) {
       let mixer = mixitup(containerEl, {
         load: {
           filter: "." + category,
         },
       });
+    } else {
+      if (containerEl) {
+        let mixer = mixitup(containerEl);
+      }
     }
   }
 } else {
