@@ -110,16 +110,29 @@ function deQueStyle()
 
 add_action('wp_enqueue_scripts', 'deQueStyle', 999999999999999999999999999999999);
 
-function get_my_menu($request)
+// function get_my_menu($request)
+// {
+//     $id = $request['id'];
+//     // Replace your menu name, slug or ID carefully
+//     return wp_get_nav_menu_items($id);
+// }
+
+// add_action('rest_api_init', function () {
+//     register_rest_route('wp/v2', '/menus/(?P<id>\d+)', array(
+//         'methods' => 'GET',
+//         'callback' => 'get_my_menu',
+//     ));
+// });
+
+
+function get_all_menus()
 {
-    $id = $request['id'];
-    // Replace your menu name, slug or ID carefully
-    return wp_get_nav_menu_items($id);
+    return wp_get_nav_menus();
 }
 
 add_action('rest_api_init', function () {
-    register_rest_route('wp/v2', '/menus/(?P<id>\d+)', array(
+    register_rest_route('wp/v2', '/menus', array(
         'methods' => 'GET',
-        'callback' => 'get_my_menu',
+        'callback' => 'get_all_menus',
     ));
 });
