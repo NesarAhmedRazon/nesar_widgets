@@ -125,14 +125,34 @@ add_action('wp_enqueue_scripts', 'deQueStyle', 999999999999999999999999999999999
 // });
 
 
-function get_all_menus()
+function get_menu_by_location($req)
 {
-    return wp_get_nav_menus();
+    $menu_name  = $req['loc'];
+    $locations = get_nav_menu_locations();
+    if (count($locations) !== 0) {
+        $menu = wp_get_nav_menu_object($locations[$menu_name]);
+        $menuitems = wp_get_nav_menu_items($menu->term_id, array('order' => 'DESC'));
+        return $menuitems;
+    } else {
+        return false;
+    }
 }
 
 add_action('rest_api_init', function () {
-    register_rest_route('wp/v2', '/menus', array(
+    register_rest_route('wp/v2', '/menus/location/(?P<loc>\w+)', array(
         'methods' => 'GET',
-        'callback' => 'get_all_menus',
+        'callback' => 'get_menu_by_location',
     ));
 });
+
+function register_menu_locations()
+{
+    register_nav_menus(
+        array(
+            'menu_cta' => __('CTA Buttons'),
+            'menu_copyright' => __('Copyright Menu'),
+
+        )
+    );
+}
+add_action('init', 'register_menu_locations');
