@@ -151,6 +151,7 @@ function register_menu_locations()
         array(
             'menu_cta' => __('CTA Buttons'),
             'menu_copyright' => __('Copyright Menu'),
+            'menu_subFooter' => __('SubMenu Footer Menu'),
 
         )
     );
