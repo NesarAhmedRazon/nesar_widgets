@@ -23,6 +23,7 @@ require plugin_dir_path(NESAR_WIDGETS) . 'nesar_init.php';
 require plugin_dir_path(NESAR_WIDGETS) . 'exts/repeatable_metabox.php';
 require plugin_dir_path(NESAR_WIDGETS) . 'exts/custom-control-init.php';
 require plugin_dir_path(NESAR_WIDGETS) . 'exts/PostTransfating.php';
+require plugin_dir_path(NESAR_WIDGETS) . 'api_routes/routes.php';
 
 function add_panel_button()
 {
@@ -123,37 +124,3 @@ add_action('wp_enqueue_scripts', 'deQueStyle', 999999999999999999999999999999999
 //         'callback' => 'get_my_menu',
 //     ));
 // });
-
-
-function get_menu_by_location($req)
-{
-    $menu_name  = $req['loc'];
-    $locations = get_nav_menu_locations();
-    if (count($locations) !== 0) {
-        $menu = wp_get_nav_menu_object($locations[$menu_name]);
-        $menuitems = wp_get_nav_menu_items($menu->term_id, array('order' => 'DESC'));
-        return $menuitems;
-    } else {
-        return false;
-    }
-}
-
-add_action('rest_api_init', function () {
-    register_rest_route('wp/v2', '/menus/location/(?P<loc>\w+)', array(
-        'methods' => 'GET',
-        'callback' => 'get_menu_by_location',
-    ));
-});
-
-function register_menu_locations()
-{
-    register_nav_menus(
-        array(
-            'menu_cta' => __('CTA Buttons'),
-            'menu_copyright' => __('Copyright Menu'),
-            'menu_subFooter' => __('SubMenu Footer Menu'),
-
-        )
-    );
-}
-add_action('init', 'register_menu_locations');
