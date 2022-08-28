@@ -20,6 +20,7 @@ final class ApiRoutes
     public function __construct()
     {
         // Initialize the Menu Locations.
+
         add_action('init', [$this, 'registe_menu_locations']);
         add_action('rest_api_init', [$this, 'register_api_routes']);
     }
@@ -36,45 +37,34 @@ final class ApiRoutes
     }
     public function register_api_routes()
     {
-        register_rest_route('wp/v2', '/menus/location/(?P<loc>\w+)', array(
+        register_rest_route('next', '/menus/location/(?P<loc>\w+)', array(
             'methods' => 'GET',
             'callback' => [$this, 'get_menu_by_location'],
         ));
-        register_rest_route('wp/v2', '/allNav', array(
+        register_rest_route('next', '/allNav', array(
             'methods' => 'GET',
             'callback' => [$this, 'getAllNav'],
         ));
+        register_rest_route('next', '/el/(?P<id>\w+)', [
+            'methods' => 'GET',
+            'callback' => [$this, 'getElItem'],
+        ]);
     }
-    // public function object_to_array($data)
-    // {
-    //     if (is_array($data) || is_object($data)) {
-    //         $result = [];
-    //         foreach ($data as $key => $value) {
-    //             $result[$key] = (is_array($value) || is_object($value)) ? $this->object_to_array($value) : $value;
-    //         }
-    //         return $result;
-    //     }
-    //     return $data;
-    // }
-    // public function filterMenuItem($menu)
-    // {
-    //     $keep = [
-    //         "ID", "menu_order", "menu_item_parent", "type", "url", "title", "target", "classes", "attr_title", "description", "object", "post_type", "chile"
-    //     ];
-    //     foreach ($menu as $key => $value) {
-    //         $filtered = [];
-    //         $items = [];
-    //         $parent = $menu[$key]->menu_item_parent;
+
+    public function getElItem(\WP_REST_Request $req)
+    {
+        $post_ID = $req->get_param("id");
+        $the_post = get_post($post_ID);
+        $contentElementor = "";
+
+        if (class_exists("\\Elementor\\Plugin")) {
+            $pluginElementor = \Elementor\Plugin::instance();
+            $contentElementor = $pluginElementor->frontend->get_builder_content($post_ID);
+        }
 
 
-    //         foreach ($keep as $k) {
-    //             $filtered[$k] = $menu[$key]->$k;
-    //         }
-
-    //         $menu[$key] = $filtered;
-    //     }
-    //     return $menu;
-    // }
+        return $contentElementor;
+    }
 
 
     public function get_menu_by_location($req)
@@ -99,7 +89,7 @@ final class ApiRoutes
         $locs = get_registered_nav_menus();
         foreach ($locs as $loc => $name) {
             $menu = $this->get_menu_by_location(["loc" => $loc]);
-
+            var_dump($menu);
             if (!$menu == false) {
                 $menus[$loc] = $menu;
             }
