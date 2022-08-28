@@ -20,7 +20,6 @@ final class ApiRoutes
     public function __construct()
     {
         // Initialize the Menu Locations.
-
         add_action('init', [$this, 'registe_menu_locations']);
         add_action('rest_api_init', [$this, 'register_api_routes']);
     }
@@ -37,15 +36,15 @@ final class ApiRoutes
     }
     public function register_api_routes()
     {
-        register_rest_route('next', '/menus/location/(?P<loc>\w+)', array(
+        register_rest_route('wp/v2', '/menus/location/(?P<loc>\w+)', array(
             'methods' => 'GET',
             'callback' => [$this, 'get_menu_by_location'],
         ));
-        register_rest_route('next', '/allNav', array(
+        register_rest_route('wp/v2', '/allNav', array(
             'methods' => 'GET',
             'callback' => [$this, 'getAllNav'],
         ));
-        register_rest_route('next', '/el/(?P<id>\w+)', [
+        register_rest_route('wp/v2', '/el/(?P<id>\w+)', [
             'methods' => 'GET',
             'callback' => [$this, 'getElItem'],
         ]);
@@ -58,6 +57,7 @@ final class ApiRoutes
         $contentElementor = "";
 
         if (class_exists("\\Elementor\\Plugin")) {
+
             $pluginElementor = \Elementor\Plugin::instance();
             $contentElementor = $pluginElementor->frontend->get_builder_content($post_ID);
         }
