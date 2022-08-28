@@ -25,7 +25,7 @@ class MetaBoxes
     }
     public function menu_image_html($post)
     {
-        ?><label for="wporg_field">Description for this field</label><?php
-    }
-}
+?><label for="wporg_field">Description for this field</label><?php
+                                                                    }
+                                                                }
 //new MetaBoxes(); TODO:need to develop
