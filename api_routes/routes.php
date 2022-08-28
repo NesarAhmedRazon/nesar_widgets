@@ -99,7 +99,7 @@ final class ApiRoutes
         $locs = get_registered_nav_menus();
         foreach ($locs as $loc => $name) {
             $menu = $this->get_menu_by_location(["loc" => $loc]);
-
+            var_dump($menu);
             if (!$menu == false) {
                 $menus[$loc] = $menu;
             }
