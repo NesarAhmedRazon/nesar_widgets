@@ -26,14 +26,26 @@ final class ApiRoutes
 
     public function registe_menu_locations()
     {
-        register_nav_menus(
-            array(
-                'cta' => __('CTA Buttons'),
-                'copyright' => __('Copyright Menu'),
-                'megaFooter' => __('SubMenu Footer Menu'),
-            )
-        );
+        $locs = [
+            'cta' => 'CTA Buttons',
+            'copyright' => 'Copyright Menu',
+            'megaFooter' => 'SubMenu Footer Menu',
+            'primary_navigation' => 'Primary Navigation',
+
+        ];
+
+        $locations = get_nav_menu_locations();
+        foreach ($locs as $key => $value) {
+            if (!in_array($key, $locations)) {
+                register_nav_menus(
+                    array(
+                        $key => __($value),
+                    )
+                );
+            }
+        }
     }
+
     public function register_api_routes()
     {
         register_rest_route('wp/v2', '/menus/location/(?P<loc>\w+)', array(
