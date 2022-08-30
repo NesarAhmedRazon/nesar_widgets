@@ -48,20 +48,63 @@ final class ApiRoutes
 
     public function register_api_routes()
     {
-        register_rest_route('wp/v2', '/menus/location/(?P<loc>\w+)', array(
+        $prefix = "tf";
+        register_rest_route($prefix, '/homepage', array(
+            'methods' => 'GET',
+            'callback' => [$this, 'getHomePage'],
+        ));
+        register_rest_route($prefix, '/menus/location/(?P<loc>\w+)', array(
             'methods' => 'GET',
             'callback' => [$this, 'get_menu_by_location'],
         ));
-        register_rest_route('wp/v2', '/allNav', array(
+        register_rest_route($prefix, '/allNav', array(
             'methods' => 'GET',
             'callback' => [$this, 'getAllNav'],
         ));
-        register_rest_route('wp/v2', '/el/(?P<id>\w+)', [
+        register_rest_route($prefix, '/els/(?P<id>\d+)', [
             'methods' => 'GET',
             'callback' => [$this, 'getElItem'],
         ]);
+
+        register_rest_route($prefix, '/page/(?P<slug>\w+)', [
+            'methods' => 'GET',
+            'callback' => [$this, 'getPage'],
+        ]);
     }
 
+    public function getHomePage($object)
+    {
+        $pageID = get_option('page_on_front');
+
+        // Handle if error.
+        if (empty($pageID)) {
+            // return error
+            return 'error';
+        }
+
+        // Create request from pages endpoint by frontpage id.
+        $request  = new \WP_REST_Request('GET', '/wp/v2/pages/' . $pageID);
+
+        // Parse request to get data.
+        $response = rest_do_request($request);
+
+        // Handle if error.
+        if ($response->is_error()) {
+            return 'error';
+        }
+
+        return $response->get_data();
+    }
+    public function getPage($req)
+    {
+        $slug = $req['slug'];
+        $page = get_page_by_path($slug, ARRAY_N);
+        if ($page) {
+            return $page;
+        } else {
+            return [];
+        }
+    }
     public function getElItem(\WP_REST_Request $req)
     {
         $post_ID = $req->get_param("id");
