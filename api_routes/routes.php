@@ -70,8 +70,55 @@ final class ApiRoutes
             'methods' => 'GET',
             'callback' => [$this, 'getPage'],
         ]);
-    }
 
+        register_rest_route($prefix, '/slug/(?P<slug>[a-zA-Z0-9-]+)', [
+            'methods' => 'GET',
+            'callback' => [$this, 'getBySlug'],
+        ]);
+        register_rest_route($prefix, '/allPages', [
+            'methods' => 'GET',
+            'callback' => [$this, 'getAllPages'],
+        ]);
+    }
+    public function getAllPages()
+    {
+        $all = [];
+        $types = get_post_types(['public'   => true,]);
+        $remove = ['e-landing-page', 'elementor_library', 'attachment'];
+        foreach ($remove as $key) {
+            unset($types[$key]);
+        }
+        foreach ($types as $key => $type) {
+            $data = get_posts(['post_type' => $type]);
+            if ($data) {
+                unset($data['ping_status']);
+                foreach ($data as $dkey => $dval) {
+                    //$all[$dval->ID] = $dval;
+                    array_push($all, (object)$dval);
+                }
+            }
+        }
+        return $all;
+    }
+    public function getBySlug($req)
+    {
+        $slug = $req['slug'];
+        $types = get_post_types(['public'   => true,]);
+        $remove = ['e-landing-page', 'elementor_library', 'attachment'];
+        foreach ($remove as $key) {
+            unset($types[$key]);
+        }
+
+
+        foreach ($types as $key => $type) {
+            $post = get_page_by_path($slug, OBJECT, $type);
+            if ($post) {
+                $cont =  apply_filters('the_content', $post->post_content);
+                $post->randered = $cont;
+                return $post;
+            }
+        }
+    }
     public function getHomePage($object)
     {
         $pageID = get_option('page_on_front');
