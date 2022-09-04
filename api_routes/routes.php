@@ -30,7 +30,7 @@ final class ApiRoutes
             'cta' => 'CTA Buttons',
             'copyright' => 'Copyright Menu',
             'megaFooter' => 'SubMenu Footer Menu',
-            'primary_navigation' => 'Primary Navigation',
+            'mainNav' => 'Primary Navigation',
 
         ];
 
@@ -190,12 +190,38 @@ final class ApiRoutes
         $locs = get_registered_nav_menus();
         foreach ($locs as $loc => $name) {
             $menu = $this->get_menu_by_location(["loc" => $loc]);
-
             if (!$menu == false) {
-                $menus[$loc] = $menu;
+                if ($loc !== 'mainNav') {
+                    $menus[$loc] = $this->filterNavItem($menu);
+                } else {
+                    $menus[$loc] = $this->makeMainNav($menu);
+                }
             }
         }
         return $menus;
+    }
+    public function makeMainNav($menu)
+    {
+        $menu = $this->filterNavItem($menu);
+        $acfRemove = ['sizes', 'status', 'id', 'filesize', 'link', 'author', 'uploaded_to', 'date', 'modified', 'menu_order'];
+        foreach ($menu as $item) {
+            $icon = get_field('icon', $item);
+            foreach ($acfRemove as $vars) {
+                unset($icon[$vars]);
+            }
+            $item->icon = $icon;
+        }
+        return $menu;
+    }
+    public function filterNavItem($menu)
+    {
+        $remove = ['post_modified', 'post_modified_gmt', 'to_ping', 'pinged', 'ping_status', 'post_parent', 'post_status', 'comment_status', 'comment_count', 'post_content', 'post_mime_type', 'post_date_gmt', 'post_date', 'post_password', 'db_id', 'xfn', 'object', 'object_id'];
+        foreach ($menu as $item) {
+            foreach ($remove as $vars) {
+                unset($item->$vars);
+            }
+        }
+        return $menu;
     }
 }
 new ApiRoutes();
