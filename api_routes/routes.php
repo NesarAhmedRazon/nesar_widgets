@@ -187,17 +187,17 @@ final class ApiRoutes
     {
         $menus = [];
 
-        // $locs = get_registered_nav_menus();
-        // foreach ($locs as $loc => $name) {
-        //     $menu = $this->get_menu_by_location(["loc" => $loc]);
-        //     if (!$menu == false) {
-        //         if ($loc !== 'mainNav') {
-        //             $menus[$loc] = $this->filterNavItem($menu);
-        //         } else {
-        //             $menus[$loc] = $this->makeMainNav($menu);
-        //         }
-        //     }
-        // }
+        $locs = get_registered_nav_menus();
+        foreach ($locs as $loc => $name) {
+            $menu = $this->get_menu_by_location(["loc" => $loc]);
+            if ($menu) {
+                if ($loc == 'mainNav') {
+                    $menus[$loc] = $this->makeMainNav($menu);
+                } else {
+                    $menus[$loc] = $this->filterNavItem($menu);
+                }
+            }
+        }
         return $menus;
     }
     public function makeMainNav($menu)
