@@ -187,17 +187,17 @@ final class ApiRoutes
     {
         $menus = [];
 
-        $locs = get_registered_nav_menus();
-        foreach ($locs as $loc => $name) {
-            $menu = $this->get_menu_by_location(["loc" => $loc]);
-            if (!$menu == false) {
-                if ($loc !== 'mainNav') {
-                    $menus[$loc] = $this->filterNavItem($menu);
-                } else {
-                    $menus[$loc] = $this->makeMainNav($menu);
-                }
-            }
-        }
+        // $locs = get_registered_nav_menus();
+        // foreach ($locs as $loc => $name) {
+        //     $menu = $this->get_menu_by_location(["loc" => $loc]);
+        //     if (!$menu == false) {
+        //         if ($loc !== 'mainNav') {
+        //             $menus[$loc] = $this->filterNavItem($menu);
+        //         } else {
+        //             $menus[$loc] = $this->makeMainNav($menu);
+        //         }
+        //     }
+        // }
         return $menus;
     }
     public function makeMainNav($menu)
@@ -206,8 +206,10 @@ final class ApiRoutes
         $acfRemove = ['sizes', 'status', 'id', 'filesize', 'link', 'author', 'uploaded_to', 'date', 'modified', 'menu_order'];
         foreach ($menu as $item) {
             $icon = get_field('icon', $item);
-            foreach ($acfRemove as $vars) {
-                unset($icon[$vars]);
+            if ($icon) {
+                foreach ($acfRemove as $vars) {
+                    unset($icon[$vars]);
+                }
             }
             $item->icon = $icon;
         }
