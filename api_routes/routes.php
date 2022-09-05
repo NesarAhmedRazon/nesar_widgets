@@ -194,7 +194,7 @@ final class ApiRoutes
                 if ($loc == 'mainNav') {
                     $menus[$loc] = $this->makeMainNav($menu);
                 } else {
-                    $menus[$loc] = $this->filterNavItem($menu);
+                    $menus[$loc] = $menu;
                 }
             }
         }
