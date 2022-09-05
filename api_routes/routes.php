@@ -191,11 +191,7 @@ final class ApiRoutes
         foreach ($locs as $loc => $name) {
             $menu = $this->get_menu_by_location(["loc" => $loc]);
             if ($menu) {
-                if ($loc == 'mainNav') {
-                    $menus[$loc] = $this->makeMainNav($menu);
-                } else {
-                    $menus[$loc] = $menu;
-                }
+                $menus[$loc] = $menu;
             }
         }
         return $menus;
