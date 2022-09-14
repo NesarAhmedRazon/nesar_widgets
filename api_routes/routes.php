@@ -83,21 +83,17 @@ final class ApiRoutes
     public function getAllPages()
     {
         $all = [];
-        $types = get_post_types(['public'   => true,]);
-        $remove = ['e-landing-page', 'elementor_library', 'attachment'];
-        foreach ($remove as $key) {
-            unset($types[$key]);
-        }
-        foreach ($types as $key => $type) {
-            $data = get_posts(['post_type' => $type]);
-            if ($data) {
-                unset($data['ping_status']);
-                foreach ($data as $dkey => $dval) {
-                    //$all[$dval->ID] = $dval;
-                    array_push($all, (object)$dval);
-                }
+
+        $data = get_pages(['post_type' => 'page',]);
+
+        if ($data) {
+            foreach ($data as $dkey => $dval) {
+                unset($dval->ping_status);
+                array_push($all, (object)$dval);
             }
         }
+
+
         return $all;
     }
     public function getBySlug($req)
@@ -145,12 +141,8 @@ final class ApiRoutes
     public function getPage($req)
     {
         $slug = $req['slug'];
-        $page = get_page_by_path($slug, ARRAY_N);
-        if ($page) {
-            return $page;
-        } else {
-            return [];
-        }
+        $page = get_page_by_path($slug, OBJECT);
+        return $page;
     }
     public function getElItem(\WP_REST_Request $req)
     {

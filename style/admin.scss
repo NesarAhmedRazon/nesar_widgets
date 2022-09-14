@@ -101,3 +101,62 @@
     transform: translate(1px, -2px) rotate(-1deg);
   }
 }
+$bgColors: (
+  tfnormal: "#3FB65B",
+  tfhover: "#369C4E",
+  oRnormal: "#EE7616",
+  oRhover: "#F26523",
+  tfBlack: "#202934",
+  twitter: "#00acee",
+  facebook: "#39569c",
+  linkedin: "#0072b1",
+);
+.nextIconColor {
+  & .acf-radio-list {
+    display: flex;
+    flex-wrap: wrap;
+    & li {
+      float: none;
+      margin-right: 0.4rem !important;
+      margin-bottom: 0.4rem !important;
+    }
+    & input[type="radio"] {
+      width: 1.4rem;
+      height: 1.4rem;
+      display: flex;
+      border-radius: 0;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+      &:checked {
+        background-color: white;
+        &:before {
+          display: block;
+          float: none;
+          line-height: 1;
+          border-radius: 0;
+          width: 0.6rem;
+          height: 0.6rem;
+        }
+      }
+    }
+  }
+  @each $name, $color in $bgColors {
+    & input[value="#{$name}"] {
+      background-color: #{$color};
+      border-color: #{$color};
+      &:focus {
+        border-color: #{$color};
+      }
+      &:checked {
+        &:before {
+          background-color: #{$color};
+        }
+      }
+    }
+  }
+}
