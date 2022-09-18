@@ -8,7 +8,7 @@
 * Plugin URI: https://github.com/NesarAhmedRazon/nesar_widgets
 * Description: This plugin will add some new Elementor Widgets.
 * Author: Nesar Ahmed
-* Version: 1.5.92
+* Version: 1.5.94
 * Elementor tested up to: 3.6.6
 * Elementor Pro tested up to: 3.7.2
 * Author URI: https://github.com/NesarAhmedRazon/
@@ -111,17 +111,9 @@ function deQueStyle()
 }
 
 add_action('wp_enqueue_scripts', 'deQueStyle', 999999999999999999999999999999999);
+function fontawesome_dashboard()
+{
+    wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', '', '', 'all');
+}
 
-// function get_my_menu($request)
-// {
-//     $id = $request['id'];
-//     // Replace your menu name, slug or ID carefully
-//     return wp_get_nav_menu_items($id);
-// }
-
-// add_action('rest_api_init', function () {
-//     register_rest_route('wp/v2', '/menus/(?P<id>\d+)', array(
-//         'methods' => 'GET',
-//         'callback' => 'get_my_menu',
-//     ));
-// });
+add_action('admin_init', 'fontawesome_dashboard');
